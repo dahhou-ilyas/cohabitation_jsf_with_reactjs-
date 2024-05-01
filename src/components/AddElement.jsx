@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const AddElement = ({ setItemCount }) => {
+const AddElement = ({ setItemCount,setData }) => {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
@@ -10,6 +10,7 @@ const AddElement = ({ setItemCount }) => {
     // Logique pour ajouter un nouvel élément ici
     // Mettre à jour le compteur d'éléments
     setItemCount(prevCount => prevCount + 1);
+    setData(prev=>[...prev,{name:name,date:date,description:description}])
     // Réinitialiser les valeurs du formulaire
     setName('');
     setDate('');

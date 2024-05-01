@@ -12,18 +12,20 @@ import Search from "./components/Search";
 
 function App() {
   const [itemCount, setItemCount] = useState(0);
-  const [data,setData]=useState({})
+  const [data,setData]=useState([])
 
   return (
     <Router>
       <Header itemCount={itemCount} />
-      <Menu />
-      <div className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/add" element={<AddElement setItemCount={setItemCount} />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
+      <div class="separe-content">
+        <Menu />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/add" element={<AddElement setData={setData} setItemCount={setItemCount} />} />
+            <Route path="/search" element={<Search data={data}/>} />
+          </Routes>
+        </div>
       </div>
       <Footer />
     </Router>
