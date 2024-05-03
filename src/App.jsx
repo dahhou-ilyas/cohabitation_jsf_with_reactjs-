@@ -17,7 +17,7 @@ function App() {
   return (
     <Router>
       <Header itemCount={itemCount} />
-      <div class="separe-content">
+      <div className="separe-content">
         <Menu />
         <div className="main-content">
           <Routes>
