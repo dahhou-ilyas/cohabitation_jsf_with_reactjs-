@@ -10,7 +10,8 @@ const AddElement = ({ setData }) => {
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
 
-  const navigate = useNavigate();
+
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,11 +36,7 @@ const AddElement = ({ setData }) => {
     });
 
     // Naviguer vers une URL avec les paramètres
-    navigate({
-      pathname: '/search',
-      search: `?${queryParams.toString()}`,
-    });
-
+  
     // Réinitialiser les valeurs du formulaire
     setName('');
     setDate('');
