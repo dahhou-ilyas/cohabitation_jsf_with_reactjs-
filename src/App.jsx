@@ -46,6 +46,9 @@ function App() {
           </div>
           <Footer />
         </>} />
+
+        {/* Route spécifique pour Search sans Header, Footer ou Menu */}
+        <Route path="/search-only" element={<Search data={data} />} />
       </Routes>
     </Router>
   );
