@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -9,25 +8,45 @@ import Home from "./components/Home";
 import Menu from "./components/Menu";
 import Search from "./components/Search";
 
-
 function App() {
   const [itemCount, setItemCount] = useState(0);
-  const [data,setData]=useState([])
+  const [data, setData] = useState([]);
 
   return (
     <Router>
-      <Header itemCount={itemCount} />
-      <div class="separe-content">
-        <Menu />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/add" element={<AddElement setData={setData} setItemCount={setItemCount} />} />
-            <Route path="/search" element={<Search data={data}/>} />
-          </Routes>
-        </div>
-      </div>
-      <Footer />
+      <Routes>
+        <Route path="/" element={<>
+          <Header itemCount={itemCount} />
+          <div className="separe-content">
+            <Menu />
+            <div className="main-content">
+              <Home />
+            </div>
+          </div>
+          <Footer />
+        </>} />
+        <Route path="/add" element={<>
+          <Header itemCount={itemCount} />
+          <div className="separe-content">
+            <Menu />
+            <div className="main-content">
+              <AddElement setData={setData} setItemCount={setItemCount} />
+            </div>
+          </div>
+          <Footer />
+        </>} />
+        <Route path="/add-element" element={<AddElement setData={setData} setItemCount={setItemCount} />} />
+        <Route path="/search" element={<>
+          <Header itemCount={itemCount} />
+          <div className="separe-content">
+            <Menu />
+            <div className="main-content">
+              <Search data={data} />
+            </div>
+          </div>
+          <Footer />
+        </>} />
+      </Routes>
     </Router>
   );
 }
