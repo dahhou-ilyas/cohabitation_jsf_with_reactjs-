@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -11,7 +13,7 @@ import Search from "./components/Search";
 function App() {
   const [itemCount, setItemCount] = useState(0);
   const [data, setData] = useState([]);
-
+  
   return (
     <Router>
       <Routes>
@@ -41,14 +43,14 @@ function App() {
           <div className="separe-content">
             <Menu />
             <div className="main-content">
-              <Search data={data} />
+              <Search dataFrom={data} />
             </div>
           </div>
           <Footer />
         </>} />
 
         {/* Route spécifique pour Search sans Header, Footer ou Menu */}
-        <Route path="/search-only" element={<Search data={data} />} />
+        <Route path="/search-only" element={<Search dataFrom={data} />} />
       </Routes>
     </Router>
   );

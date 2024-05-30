@@ -1,18 +1,20 @@
+// Search.js
+
 import React, { useEffect, useState } from 'react';
 
-
-const Search = () => {
-  const [data, setData] = useState([]);
+const Search = ({ dataFrom }) => {
+  const [data, setData] = useState(dataFrom || []);
 
   useEffect(() => {
     const handleMessage = (event) => {
-      if(! event.data.type){
-        if(event.data){
-          const jsonResponse=JSON.parse(event.data)
-          setData(jsonResponse);
+      
+      if (!event.data.type) {
+        
+        if (event.data instanceof Array) {
+          console.log(event);
+          setData(prev => [...prev, ...event.data]);
         }
       }
-      
     };
 
     window.addEventListener('message', handleMessage);
@@ -22,9 +24,16 @@ const Search = () => {
     };
   }, []);
 
+  // Met à jour `data` lorsque `dataFrom` change
+  useEffect(() => {
+    if (dataFrom) {
+      setData(dataFrom);
+    }
+  }, [dataFrom]);
+
   return (
     <div>
-      <h1>Recherche</h1>
+      <h1>Visualisation des Données</h1>
       <table>
         <thead>
           <tr>
