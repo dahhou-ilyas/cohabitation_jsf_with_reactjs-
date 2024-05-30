@@ -9,10 +9,8 @@ const Search = ({ dataFrom }) => {
     const handleMessage = (event) => {
       
       if (!event.data.type) {
-        
         if (event.data instanceof Array) {
-          console.log(event);
-          setData(prev => [...prev, ...event.data]);
+          setData(event.data);
         }
       }
     };
