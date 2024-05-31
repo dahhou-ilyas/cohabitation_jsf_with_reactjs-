@@ -43,14 +43,14 @@ function App() {
           <div className="separe-content">
             <Menu />
             <div className="main-content">
-              <Search dataFrom={data} />
+              <Search dataFrom={data} setItemCount={setItemCount}/>
             </div>
           </div>
           <Footer />
         </>} />
 
         {/* Route spécifique pour Search sans Header, Footer ou Menu */}
-        <Route path="/search-only" element={<Search dataFrom={data} />} />
+        <Route path="/search-only" element={<Search dataFrom={data} setItemCount={setItemCount}/>} />
       </Routes>
     </Router>
   );

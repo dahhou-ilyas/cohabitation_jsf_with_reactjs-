@@ -2,32 +2,53 @@
 
 import React, { useEffect, useState } from 'react';
 
-const Search = ({ dataFrom }) => {
+const Search = ({ dataFrom,setItemCount }) => {
   const [data, setData] = useState(dataFrom || []);
-
   useEffect(() => {
-    const handleMessage = (event) => {
-      
-      if (!event.data.type) {
-        if (event.data instanceof Array) {
-          setData(event.data);
-        }
-      }
+    const ws = new WebSocket('ws://localhost:8080/jsf2-1.0-SNAPSHOT/websocket');
+
+
+    ws.onopen = () => {
+      console.log('WebSocket connected');
     };
 
-    window.addEventListener('message', handleMessage);
+    ws.onmessage = (event) => {
+      
+      const receivedData = JSON.parse(event.data);
+     
+      setData(prevData => prevData.concat(receivedData));
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket disconnected');
+    };
+
+    // const handleMessage = (event) => {
+      
+    //   if (!event.data.type) {
+    //     if (event.data instanceof Array) {
+    //       setData(event.data);
+    //     }
+    //   }
+    // };
+    
+    setItemCount(prevData=>prevData + data.length)
+
+    // window.addEventListener('message', handleMessage);
 
     return () => {
-      window.removeEventListener('message', handleMessage);
+      ws.close();
     };
   }, []);
 
-  // Met à jour `data` lorsque `dataFrom` change
-  useEffect(() => {
-    if (dataFrom) {
-      setData(dataFrom);
-    }
-  }, [dataFrom]);
+  useEffect(()=>{
+    setItemCount(prev=>prev+data.length)
+  },[data])
+
 
   return (
     <div>
@@ -40,7 +61,8 @@ const Search = ({ dataFrom }) => {
             <th>Description</th>
           </tr>
         </thead>
-        <tbody>
+        {data && 
+          <tbody>
           {data.map((element, index) => (
             <tr key={index}>
               <td>{element?.name}</td>
@@ -49,6 +71,8 @@ const Search = ({ dataFrom }) => {
             </tr>
           ))}
         </tbody>
+        }
+        
       </table>
     </div>
   );
