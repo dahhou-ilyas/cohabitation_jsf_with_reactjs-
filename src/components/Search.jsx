@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 const Search = ({socket, dataFrom }) => {
   const [data, setData] = useState(dataFrom || []);
+  const [searchQuery,setSearchQuery]=useState("");
 
   useEffect(() => {
     if(!socket){
@@ -11,26 +12,43 @@ const Search = ({socket, dataFrom }) => {
       ws.onopen = () => {
         console.log('WebSocket connected');
       };
-    
+
       ws.onmessage = (event) => {
         const receivedData = JSON.parse(event.data);
         setData(prevData => prevData.concat(receivedData));
       };
-    
+
       ws.onerror = (error) => {
         console.error('WebSocket error:', error);
       };
-    
+
       ws.onclose = () => {
         console.log('WebSocket disconnected');
       };
-    
+
+
+      const handleMessage = (event) => {
+        if (event.origin !== 'http://localhost:8080') return;
+        setSearchQuery(event.data)
+      };
+
+      //add event message
+      window.addEventListener('message', handleMessage);
+
       return () => {
+        window.removeEventListener('message', handleMessage);
         ws.close();
       };
     }
     
   }, []);
+
+
+  const filteredData = data.filter(item => {
+    const nameMatch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const descriptionMatch = item.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return nameMatch || descriptionMatch;
+  });
 
   return (
     <div>
@@ -45,7 +63,7 @@ const Search = ({socket, dataFrom }) => {
         </thead>
         {data && 
           <tbody>
-          {data.map((element, index) => (
+          {filteredData.map((element, index) => (
             <tr key={index}>
               <td>{element?.name}</td>
               <td>{element?.date}</td>
