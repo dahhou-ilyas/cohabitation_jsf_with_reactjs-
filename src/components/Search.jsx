@@ -2,53 +2,35 @@
 
 import React, { useEffect, useState } from 'react';
 
-const Search = ({ dataFrom,setItemCount }) => {
+const Search = ({socket, dataFrom }) => {
   const [data, setData] = useState(dataFrom || []);
+
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8080/jsf2-1.0-SNAPSHOT/websocket');
-
-
-    ws.onopen = () => {
-      console.log('WebSocket connected');
-    };
-
-    ws.onmessage = (event) => {
-      
-      const receivedData = JSON.parse(event.data);
-     
-      setData(prevData => prevData.concat(receivedData));
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    ws.onclose = () => {
-      console.log('WebSocket disconnected');
-    };
-
-    // const handleMessage = (event) => {
-      
-    //   if (!event.data.type) {
-    //     if (event.data instanceof Array) {
-    //       setData(event.data);
-    //     }
-    //   }
-    // };
+    if(!socket){
+      const ws = new WebSocket('ws://localhost:8080/jsf2-1.0-SNAPSHOT/websocket');
+      ws.onopen = () => {
+        console.log('WebSocket connected');
+      };
     
-    setItemCount(prevData=>prevData + data.length)
-
-    // window.addEventListener('message', handleMessage);
-
-    return () => {
-      ws.close();
-    };
+      ws.onmessage = (event) => {
+        const receivedData = JSON.parse(event.data);
+        setData(prevData => prevData.concat(receivedData));
+      };
+    
+      ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+      };
+    
+      ws.onclose = () => {
+        console.log('WebSocket disconnected');
+      };
+    
+      return () => {
+        ws.close();
+      };
+    }
+    
   }, []);
-
-  useEffect(()=>{
-    setItemCount(prev=>prev+data.length)
-  },[data])
-
 
   return (
     <div>
