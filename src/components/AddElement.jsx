@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const AddElement = ({ setItemCount, setData }) => {
+const AddElement = ({socket, setItemCount, setData }) => {
   const [name, setName] = useState('');
   const [date, setDate] = useState('');
   const [description, setDescription] = useState('');
+  const [ws,setWs]=useState(null);
+
+  useEffect(() => {
+    if(socket){
+      setWs(socket);
+    }
+    
+  }, []);
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
     const newItem = { name, date, description };
     setItemCount(prevCount => prevCount + 1);
@@ -14,6 +23,9 @@ const AddElement = ({ setItemCount, setData }) => {
     // Envoyer le message à l'application parent (JSF)
     window.parent.postMessage(newItem, '*');
 
+    if (ws) {
+      ws.send(JSON.stringify(newItem));
+    }
 
     setName('');
     setDate('');

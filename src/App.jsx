@@ -64,12 +64,12 @@ function App() {
           <div className="separe-content">
             <Menu />
             <div className="main-content">
-              <AddElement setData={setData} setItemCount={setItemCount} />
+              <AddElement socket={socket} setData={setData} setItemCount={setItemCount} />
             </div>
           </div>
           <Footer />
         </>} />
-        <Route path="/add-element" element={<AddElement setData={setData} setItemCount={setItemCount} />} />
+        <Route path="/add-element" element={<AddElement socket={socket} setData={setData} setItemCount={setItemCount} />} />
         <Route path="/search" element={<>
           <Header itemCount={itemCount} />
           <div className="separe-content">

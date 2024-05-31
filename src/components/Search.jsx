@@ -14,6 +14,7 @@ const Search = ({socket, dataFrom }) => {
       };
 
       ws.onmessage = (event) => {
+        console.log(event.data);
         const receivedData = JSON.parse(event.data);
         setData(prevData => prevData.concat(receivedData));
       };
@@ -38,6 +39,12 @@ const Search = ({socket, dataFrom }) => {
       return () => {
         window.removeEventListener('message', handleMessage);
         ws.close();
+      };
+    }else{
+      socket.onmessage = (event) => {
+        console.log(event.data);
+        const receivedData = JSON.parse(event.data);
+        setData(prevData => prevData.concat(receivedData));
       };
     }
     
