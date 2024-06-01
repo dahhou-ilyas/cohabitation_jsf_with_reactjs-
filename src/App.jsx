@@ -24,8 +24,11 @@ function App() {
     };
 
     ws.onmessage = (event) => {
-      const receivedData = JSON.parse(event.data);
-      setData(prevData => prevData.concat(receivedData));
+      if(event.data!="refreshPage"){
+        const receivedData = JSON.parse(event.data);
+        setData(prevData => prevData.concat(receivedData));
+      }
+      
     };
 
     ws.onerror = (error) => {

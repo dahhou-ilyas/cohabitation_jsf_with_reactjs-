@@ -14,9 +14,11 @@ const Search = ({socket, dataFrom,setItemCount }) => {
       };
 
       ws.onmessage = (event) => {
-        console.log(event.data);
-        const receivedData = JSON.parse(event.data);
-        setData(prevData => prevData.concat(receivedData));
+        if(event.data!="refreshPage"){
+          const receivedData = JSON.parse(event.data);
+          setData(prevData => prevData.concat(receivedData));
+        }
+        
       };
 
       ws.onerror = (error) => {
