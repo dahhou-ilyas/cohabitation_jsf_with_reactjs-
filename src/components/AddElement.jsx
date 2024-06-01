@@ -31,7 +31,7 @@ const AddElement = ({ socket, setItemCount, setData }) => {
 
   return (
     <div className="w-[40vw] flex items-center p-10 justify-center">
-      <div className="container flex flex-col justify-center ">
+      <div className="bg-slate-100 rounded border border-slate-900  p-4 flex flex-col justify-center ">
         <h1 className="title mb-4">Ajouter un nouvel élément</h1>
         <form
           className=" flex flex-col mt-6  gap-4 items-center"
