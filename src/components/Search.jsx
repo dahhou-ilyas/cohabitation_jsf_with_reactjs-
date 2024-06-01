@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-const Search = ({socket, dataFrom }) => {
+const Search = ({socket, dataFrom,setItemCount }) => {
   const [data, setData] = useState(dataFrom || []);
   const [searchQuery,setSearchQuery]=useState("");
 
@@ -10,7 +10,7 @@ const Search = ({socket, dataFrom }) => {
     if(!socket){
       const ws = new WebSocket('ws://localhost:8080/jsf2-1.0-SNAPSHOT/websocket');
       ws.onopen = () => {
-        console.log('WebSocket connected');
+        console.log('WebSocket connected 11');
       };
 
       ws.onmessage = (event) => {
@@ -24,7 +24,7 @@ const Search = ({socket, dataFrom }) => {
       };
 
       ws.onclose = () => {
-        console.log('WebSocket disconnected');
+        console.log('WebSocket disconnected 11');
       };
 
 
@@ -42,13 +42,21 @@ const Search = ({socket, dataFrom }) => {
       };
     }else{
       socket.onmessage = (event) => {
-        console.log(event.data);
+        console.log("ilyas dddd");
         const receivedData = JSON.parse(event.data);
-        setData(prevData => prevData.concat(receivedData));
+        setData(prevData => {
+          return prevData.concat(receivedData)
+        });
+        setItemCount(prev=>prev+1)
+        return () => {
+          socket.close();
+        }; 
+
       };
     }
     
   }, []);
+
 
 
   const filteredData = data.filter(item => {

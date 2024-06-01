@@ -17,10 +17,9 @@ const AddElement = ({socket, setItemCount, setData }) => {
 
     e.preventDefault();
     const newItem = { name, date, description };
-    setItemCount(prevCount => prevCount + 1);
+    
     setData(prev => [...prev, newItem]);
-
-    // Envoyer le message à l'application parent (JSF)
+    setItemCount(prevCount => prevCount + 1);
     window.parent.postMessage(newItem, '*');
 
     if (ws) {
